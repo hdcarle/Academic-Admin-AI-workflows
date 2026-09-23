@@ -1,0 +1,50 @@
+# Runnable demo: python -m course_eval parse --config examples/config.yaml
+#                python -m course_eval build --config examples/config.yaml
+# Uses four made-up reports in examples/sample_reports/ (fictional instructor "Alex Rivera").
+instructor:
+  display_name: Alex Rivera
+  name_aliases: ["Alex Rivera"]
+institution: Example State University
+adapter: anthology_campuslabs
+
+paths:
+  text_dir: sample_reports      # already text, so no PDF step needed for the demo
+  data_dir: demo_data
+  output_dir: demo_output
+  verbatims: verbatims.csv
+
+sections:
+  course_regex: '[A-Z]{3}\s*\d{3}'
+  section_code_regex: '\(([A-Z]{1,3}\d)\)'
+  online_code_regex: 'D'
+  graduate_min_course_number: 500
+course_titles:
+  "BUS 101": Principles of Business
+  "BUS 520": Strategic Management
+
+surveys:
+  - {id: standard, label: Standard}
+
+groups:
+  - {id: teaching, title: "AVG RATING BY EVALUATION CATEGORY, 5-point scale", color: blue, primary: true, in_avg_overall: true}
+  - {id: online, title: "ONLINE-COURSE ITEMS (not in Avg. Overall)", color: purple, collapse: true}
+
+items:
+  - {key: respect,   label: "The instructor treated students with respect.",       group: teaching, match: 'treated students with respect'}
+  - {key: clarity,   label: "The instructor explained course material clearly.",   group: teaching, match: 'explained course material'}
+  - {key: feedback,  label: "The instructor gave feedback in a timely manner.",    group: teaching, match: 'feedback in a timely'}
+  - {key: workload,  label: "The workload in this course was challenging.",        group: teaching, match: 'workload in this course'}
+  - {key: learned,   label: "I learned a great deal in this course.",              group: teaching, match: 'learned a great deal'}
+  - {key: nav,       label: "Course navigation is logical, consistent, and efficient.", group: online, match: 'course navigation'}
+  - {key: grading,   label: "The course grading policy is stated clearly.",        group: online, match: 'grading policy'}
+
+summary:
+  avg_overall_survey: null          # null = all sections
+  career_avg_groups: [teaching]
+  top_box_groups: [teaching]
+  small_sample_threshold: 5
+  min_respondents: 1
+
+notes:
+  - {when: {season: Fall}, text: "Fall term."}
+verbatim_theme_order: ["Real-world learning", "Responsiveness"]

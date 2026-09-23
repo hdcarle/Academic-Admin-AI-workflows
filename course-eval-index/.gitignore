@@ -1,0 +1,21 @@
+# Never commit real evaluations or student comments (patterns are anchored to this folder)
+/reports/
+/text/
+/text_manual/
+/data/
+/output/
+/comments/
+/config.yaml
+/overrides.yaml
+/verbatims.csv
+*.pdf
+*.docx
+*.png
+*.jpg
+*.xlsx
+# demo output
+/examples/demo_data/
+/examples/demo_output/
+__pycache__/
+.venv/
+.DS_Store

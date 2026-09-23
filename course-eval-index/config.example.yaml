@@ -1,0 +1,85 @@
+# ============================================================================
+# config.example.yaml  -  copy to config.yaml and edit.  Every key is explained.
+# ============================================================================
+
+instructor:
+  display_name: "Your Name"                # shown in the workbook title
+  name_aliases: ["Your Name", "Prior Name"]  # names as they can appear on reports (e.g., before a name change)
+institution: "Your University"
+
+# Which parser reads your reports. Built in:
+#   anthology_campuslabs  Campus Labs / Anthology text reports ("NN% (n)" rows)
+#   regex_table           any one-question-per-line text report, described by regexes below
+# Not matching? See docs/ADAPTER_GUIDE.md (Claude can write you a new adapter from a sample).
+adapter: anthology_campuslabs
+# adapter_options:                         # only needed for regex_table, or to override defaults
+#   row_regex: '^(?P<stem>.+?)\s{2,}(?P<counts>\d+(?:\s+\d+){4})\s+(?P<mean>\d\.\d+)\s*$'
+#   term_regex: '(?P<season>Fall|Spring|Summer)\s+(?P<year>\d{4})'
+#   enrolled_regex: 'Enrolled:\s*(\d+)'
+#   responded_regex: 'Responses:\s*(\d+)'
+#   course_line_regex: '(?P<course>[A-Z]{3,4}\s*\d{3})[-\s]+(?P<code>\w+)'
+
+paths:                                     # relative paths are relative to this file
+  pdf_dir: reports                         # your evaluation PDFs (also Word files and screenshots for comments)
+  text_dir: text                           # extracted text (generated)
+  data_dir: data                           # sections.json + warnings.txt (generated)
+  output_dir: output                       # the workbook lands here
+  verbatims: verbatims.csv                 # your curated quotes (see README)
+output_file: Teaching_Evaluation_Index.xlsx
+
+sections:
+  course_regex: '[A-Z]{2,5}\s*\d{3}'       # how a course code looks, e.g. BUS 101
+  section_code_regex: '\(([A-Z]{1,3}\d)\)' # section codes on the report, e.g. (QD1)
+  online_code_regex: 'D'                   # a section is ONLINE if any of its codes matches this regex
+  graduate_min_course_number: 500          # course numbers at/above this are GR, below are UG
+  # season_overrides:                      # e.g., report a winter session as its own term
+  #   - {code_regex: '^WD', season: Winter}
+
+season_order: [Winter, Spring, May, Summer I, Summer II, Fall]   # chronological order inside a year
+course_titles: {}                          # {"BUS 101": "Principles of Business"}
+
+# Question stems that are NOT ratings (demographics etc.) so they don't trigger warnings
+ignore_stems: ['current class level', 'how many hours per week']
+
+default_scales: [[5, 4, 3, 2, 1]]          # weights for the first N response counts (Strongly Agree = 5 ... )
+mean_tolerance: 0.06                       # printed means may be rounded to 1 decimal
+
+# Survey versions. If your institution changed its form, list the OLD one first with detect_keys (any
+# of these item keys present => this version). The last entry is the default.
+surveys:
+  - {id: current, label: Current}
+
+# Column groups in the workbook. primary groups come first; in_avg_overall groups feed Avg. Overall.
+groups:
+  - {id: teaching, title: "AVG RATING BY EVALUATION CATEGORY, 5-point scale", color: blue, primary: true, in_avg_overall: true}
+  - {id: other,    title: "OTHER ITEMS (not in Avg. Overall)", color: gray, collapse: true}
+
+# One entry per evaluation question you want as a column. `match` is a regex tested against the lowercased
+# question text. Put ONLY teaching-quality items in groups that feed Avg. Overall - leave out program-focused
+# items ("The library was adequate") and comparisons with other courses; put those in a separate group.
+# Optional: scales: [[4,3,2,1],[4,3,2,1,0]]  (candidate weights; the one matching the printed mean is used)
+items:
+  - {key: respect,  label: "The instructor treated students with respect.", group: teaching, match: 'treated students with respect'}
+  - {key: clarity,  label: "The instructor explained course material clearly.", group: teaching, match: 'explained course material'}
+
+summary:
+  avg_overall_survey: null                 # e.g. current  (null = average over all sections)
+  career_avg_groups: [teaching]            # groups shown in "career average by item"
+  top_box_groups: [teaching]               # groups for the "% strongly agree / agree" block (static)
+  small_sample_threshold: 5                # sections below this many respondents are flagged yellow
+  min_respondents: 1                       # sections below this are left out of averages (1 = count everything)
+
+muted_when_online: []                      # item keys shown in grey on online rows (e.g., in-class items with many N/A)
+
+# Notes printed in each row's Notes column when the condition matches
+notes: []
+#  - {when: {year: 2020, season: Spring}, text: "Mid-semester transition to remote instruction (COVID-19)."}
+#  - {when: {season_in: [May, Summer I, Summer II]}, text: "Compressed session."}
+
+verbatim_theme_order: []                   # optional fixed order of themes in the verbatims sheet
+method_notes: []                           # extra rows for the Method & Notes sheet: [["Title", "Text"]]
+
+# Item option reference (add inside any item):
+#   reverse: true                 negatively worded question; flips the printed mean so higher is better
+#   scales: [[4,3,2,1],[4,3,2,1,0]]   candidate response weights (first counts get first weights)
+#   optional: true                do not warn when a section has no value for this item
