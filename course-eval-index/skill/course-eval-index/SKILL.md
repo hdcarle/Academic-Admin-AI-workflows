@@ -7,7 +7,9 @@ description: Set up and run the course-eval-index tool that turns a professor's 
 
 This skill walks a professor through turning course-evaluation reports into a defensible teaching workbook using the `course_eval` Python tool in this repository. Read `README.md`, `SETUP.md`, `docs/ADAPTER_GUIDE.md`, and `docs/METHODOLOGY.md` first if you have not.
 
-To install as a Claude skill: copy this folder into your skills directory as `course-eval-index/SKILL.md` (Claude Code: `~/.claude/skills/`), and keep the repository somewhere Claude can read it.
+Install instructions are in the repository README ("Get started" > "Option 1"). In short: Claude Code reads this folder from `~/.claude/skills/course-eval-index/`; the Claude desktop app takes a zip of this folder under Settings > Skills.
+
+The tool lives in the folder that contains `course_eval/`, `config.example.yaml`, and `SETUP.md`. If you do not know where it is, ask the user for the path before doing anything else.
 
 ## First-time setup
 

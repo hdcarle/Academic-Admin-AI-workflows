@@ -180,10 +180,16 @@ Nothing else changes: the same config produces the same columns, so earlier rows
 
 ## Doing this with Claude (no coding)
 
-If you use Claude Code or Claude Cowork, copy the `skill/` folder into your skills folder (see the top of `skill/SKILL.md`) and say: **"Set up course-eval-index for my evaluations."** Claude will:
+The README's **Option 1** has the full steps. In short:
+
+1. Install the skill: copy `skill/course-eval-index/` to `~/.claude/skills/` (Claude Code), or, with no terminal, upload `skill/course-eval-index.zip` under Settings > Skills (Claude desktop app or claude.ai).
+2. Open Claude Code in this folder, or connect this folder in Cowork.
+3. Paste: **"Set up course-eval-index for my course evaluations. The tool is in this folder, and my evaluation PDFs are in `reports/`. Follow the course-eval-index skill. Look at one of my reports, then ask me the three rules (how to tell a section is online, where graduate level starts, what a course code looks like). Propose my list of evaluation questions and which of them count toward Avg. Overall, and let me confirm before building. Then build my workbook and check the section and student totals with me."**
+
+Claude will:
 
 1. Read one of your reports and ask you the three rules in step 2 (online code, graduate threshold, course pattern).
-2. Propose your `items` list and mark which ones belong in Avg. Overall, and ask you to confirm.
+2. Propose your `items` list, mark which ones belong in Avg. Overall, and ask you to confirm.
 3. Write `config.yaml`, extract and parse everything, and walk you through each line of `warnings.txt`.
 4. If your report format is not Campus Labs, write an adapter from one sample (see [docs/ADAPTER_GUIDE.md](docs/ADAPTER_GUIDE.md)).
 5. Build the workbook and check the totals with you.

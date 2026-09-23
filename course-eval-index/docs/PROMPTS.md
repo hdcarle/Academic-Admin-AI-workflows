@@ -2,6 +2,20 @@
 
 Use these with Claude Code, Claude Cowork, or any Claude chat that can read your files. Replace the folder names.
 
+## 0. Start here
+
+**First-time setup** (with the skill installed, see the README):
+
+> Set up course-eval-index for my course evaluations. The tool is in this folder, and my evaluation PDFs are in `reports/`. Follow the course-eval-index skill. Look at one of my reports, then ask me the three rules (how to tell a section is online, where graduate level starts, what a course code looks like). Propose my list of evaluation questions and which of them count toward Avg. Overall, and let me confirm before building. Then build my workbook and check the section and student totals with me.
+
+**Without the skill:**
+
+> Read README.md, SETUP.md, and docs/METHODOLOGY.md in this folder, then do the first-time setup with me, step by step. Ask me before you decide anything about which questions count toward Avg. Overall.
+
+**Every new semester:**
+
+> I added new evaluation PDFs to `reports/`. Use course-eval-index to rebuild my workbook, walk me through any warnings, and confirm the totals only went up.
+
 ## 1. Draft your `items` list
 
 > Read one report from `text/` (BUS 101 Q1 FA23.txt). List every rating question. Sort them into three buckets: (1) teaching behavior, (2) about the institution or its resources, (3) comparisons or unusual scales. Then write the `items` section of `config.yaml` with a unique `key`, a `label`, a lowercase `match` regex, and a `group` for each. Flag any negatively worded question and tell me how you would treat it.

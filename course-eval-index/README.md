@@ -18,19 +18,65 @@ It was built for an academic job search, where "I taught 1,100 students across 4
 | Student Verbatims | Curated quotes from your `verbatims.csv`, checked against the source text so the wording is exact. |
 | Method & Notes | How each column was defined, what was excluded from Avg. Overall, and why. |
 
-## Quick start (about 10 minutes with the demo data)
+## Get started
+
+Pick one. Option 1 is easier if you do not code; Option 2 is fully manual.
+
+### Option 1: with Claude (recommended)
+
+You need a Claude app that can read your files and run Python: **Claude Code**, or the **Claude desktop app in Cowork mode** with a folder connected. A browser chat that cannot access your files will not work.
+
+**Step 1. Get the tool.** Download this repository (green **Code** button > **Download ZIP**, then unzip) or clone it. You need the `course-eval-index` folder. Put your evaluation PDFs in a separate folder, for example `course-eval-index/reports/` (`reports/` is git-ignored).
+
+**Step 2. Install the skill.** A skill is a set of instructions Claude follows for this workflow. Use whichever route matches your app. A zip is already provided at `skill/course-eval-index.zip`, so you do not need to build one.
+
+- *Claude desktop app or claude.ai (no terminal):*
+  1. On this repository page, open the `skill` folder, click `course-eval-index.zip`, and download it (or use the copy from Step 1's download). Do not unzip it.
+  2. In Claude, open **Settings**, then **Skills** (it may sit under Capabilities or Customize).
+  3. Choose **Upload skill** (or **Add skill**) and select the zip.
+  4. Turn the skill on, then start a new chat.
+- *Claude Code (terminal):* copy the folder into your skills directory, then start a new Claude Code session.
+
+  ```bash
+  mkdir -p ~/.claude/skills
+  cp -r skill/course-eval-index ~/.claude/skills/
+  ```
+
+  On Windows, copy it to `%USERPROFILE%\.claude\skills\`.
+
+If your Settings has no Skills page, skip this step and use the **No skill?** prompt below.
+
+**Step 3. Point Claude at your files.** Claude Code: open a terminal in the `course-eval-index` folder and run `claude`. Cowork: connect the `course-eval-index` folder, and connect the folder with your PDFs if it is elsewhere.
+
+**Step 4. Paste this prompt** (first time only):
+
+> Set up course-eval-index for my course evaluations. The tool is in this folder, and my evaluation PDFs are in `reports/`. Follow the course-eval-index skill. Look at one of my reports, then ask me the three rules (how to tell a section is online, where graduate level starts, what a course code looks like). Propose my list of evaluation questions and which of them count toward Avg. Overall, and let me confirm before building. Then build my workbook and check the section and student totals with me.
+
+**Step 5. Answer Claude's questions.** Expect 30 to 60 minutes the first time. Claude will show you a few decisions (which questions are about teaching versus the institution, how to label your online sections) and ask you to confirm the totals against your own records. It will not invent scores; anything it cannot read gets flagged for you.
+
+**No skill?** You can skip Step 2 and paste this instead: *"Read README.md, SETUP.md, and docs/METHODOLOGY.md in this folder, then do the first-time setup with me, step by step. Ask me before you decide anything about which questions count toward Avg. Overall."*
+
+**Prompts for later** (paste as needed):
+
+- *New semester:* "I added new evaluation PDFs to `reports/`. Use course-eval-index to rebuild my workbook, walk me through any warnings, and confirm the totals only went up."
+- *Student quotes:* "Use course-eval-index to propose 30 to 60 candidate student quotes from my comments, grouped by theme, exactly as written with names removed. Then verify them."
+- *Check before sending:* "Compare five random rows of my workbook against their source PDFs and report any difference."
+
+More prompts are in [docs/PROMPTS.md](docs/PROMPTS.md).
+
+### Option 2: by hand
 
 ```bash
 git clone https://github.com/hdcarle/Academic-Admin-AI-workflows.git
 cd Academic-Admin-AI-workflows/course-eval-index
 pip install -r requirements.txt
 
-# Run the bundled demo (four made-up reports, no PDFs needed)
+# Try the bundled demo first (four made-up reports, no PDFs needed)
 python -m course_eval parse --config examples/config.yaml
 python -m course_eval build --config examples/config.yaml
 ```
 
-Open `examples/demo_output/Teaching_Evaluation_Index.xlsx`. Then follow **[SETUP.md](SETUP.md)** to point the tool at your own reports.
+Open `examples/demo_output/Teaching_Evaluation_Index.xlsx`, then follow **[SETUP.md](SETUP.md)** to point the tool at your own reports.
 
 ## How it works
 
@@ -68,7 +114,8 @@ course_eval/            the tool (extract, parse, build, verify)
   adapters/             one file per report format
 examples/               runnable demo with fictional data
 docs/                   adapter guide, methodology, Claude prompts
-skill/SKILL.md          a Claude skill that walks you through setup
+skill/course-eval-index/   a Claude skill that walks you through setup
+skill/course-eval-index.zip  the same skill, ready to upload in Settings
 config.example.yaml     annotated configuration template
 SETUP.md                step-by-step setup for your own reports
 ```
