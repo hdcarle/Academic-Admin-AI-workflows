@@ -7,7 +7,7 @@ Turn a folder of course-evaluation reports (PDFs) into a job-market-ready **teac
 - **Student Verbatims**: your best student comments, exact wording, tagged by theme, course, term, format, and level.
 - **Method & Notes**: definitions and footnotes, so any number can be defended if a search committee asks.
 
-It was built for an academic job search, where "I taught 1,100 students across 40 sections, and here is every rating" is stronger than a few hand-picked quotes. It works with any evaluation format: a built-in parser handles Campus Labs / Anthology reports, a configurable parser handles other text-table formats, and Claude can write a new parser from one sample report ([docs/ADAPTER_GUIDE.md](docs/ADAPTER_GUIDE.md)).
+It was built for a teacher looking to summarize their student reach or to generate data for an academic job search, where "I taught 1,100 students across 40 sections, and here is every rating" is stronger than adding a few hand-picked quotes. It works with any evaluation format: a built-in parser handles Campus Labs / Anthology reports, a configurable parser handles other text-table formats, and Claude can write a new parser from one sample report ([docs/ADAPTER_GUIDE.md](docs/ADAPTER_GUIDE.md)).
 
 ## What you get
 
